@@ -40,7 +40,7 @@ folders.forEach(element => {
         writeStream.end()
 
 
-        exec(`ffmpeg -safe 0 -r 60 -f concat -i ${'./videos/'+element+'/list.txt'}  -c copy -copyinkf ${'./videos/'+element+'/combined.mp4'}`, {maxBuffer: 1024 * 10000},(error, stdout, stderr) => {
+        exec(`ffmpeg -hwaccel cuda -safe 0 -f concat -i  ${'./videos/'+element+'/list.txt'}  -c copy -copyinkf -vsync 1 -s 1920x1080 -sws_flags lanczos -c:v h264 ${'./videos/'+element+'/combined.mp4'}`, {maxBuffer: 1024 * 100000},(error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
