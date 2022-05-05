@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 
-let game_list = ['Overwatch']
+let game_list = ['Overwatch','Rocket League']
 
 game_list.forEach(element => {
     let date_ob = new Date();
@@ -14,6 +14,9 @@ game_list.forEach(element => {
     let year = date_ob.getFullYear();
 
     let file = year + "_" + month + "_" + date  + "_" + element
+    if(file.includes(' ')){
+        file = file.replace(' ', '_')
+    }
 
     try {
         if (!fs.existsSync('./videos/'+file)) {
