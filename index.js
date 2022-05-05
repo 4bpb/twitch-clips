@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 
-let game_list = ['Overwatch','Rocket League']
+let game_list = ['Just Chatting', 'Fortnite']
 
 game_list.forEach(element => {
     let date_ob = new Date();
@@ -73,7 +73,7 @@ async function main(game,file){
         video_time = video_time + v_t
         let id = element.node.slug
         console.log(getDateTime()+'  '+id)
-        params(id,file)
+        params(id,file,game)
 
     });
 
@@ -82,7 +82,7 @@ async function main(game,file){
 }
 
 
-async function params(id,file){
+async function params(id,file,game){
     let tokens = await fetch('https://gql.twitch.tv/gql', {
         method: 'POST',
         headers: {
@@ -143,7 +143,7 @@ async function params(id,file){
           reject(err);
         });
         fileStream.on("finish", function() {
-            console.log(getDateTime()+'  '+'Finished Downloading ID '+id)
+            console.log(getDateTime()+'  '+'Finished Downloading Game '+game+' ID '+id)
           resolve();
         });
       });
