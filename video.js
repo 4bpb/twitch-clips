@@ -18,7 +18,7 @@ folders.forEach(element => {
 
         let list = ''
         videos.forEach(video => {
-            if(video != 'list.txt' && video != '.DS_Store' && video != 'combined.mp4'){
+            if(video != 'list.txt' && video != '.DS_Store' && video != 'combined.mp4' && video.split('.')[1] != 'ts'){
                 fs.appendFileSync('./videos/'+element+'/list.txt',('file '+video+'\n'))
 
 
@@ -51,13 +51,13 @@ folders.forEach(element => {
         writeStream.end()
 //${'./videos/'+element+'/list.txt'}
 
-        exec('ffmpeg -f concat -safe 0 -i ./videos/'+element+'/list.txt'+' -c copy ./videos/'+element+'/'+element+'output.mp4', {maxBuffer: 1024 * 100000},(error, stdout, stderr) => {
+        exec('ffmpeg -f concat -safe 0 -i ./videos/'+element+'/list.txt'+' -c copy ./videos/'+element+'/'+element+'_OUTPUT.mp4', {maxBuffer: 1024 * 100000},(error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
             }
             else{
-                console.log("videos are successfully merged")
+                console.log("Videos are Successfully Merged for "+element)
         }
             
         })
