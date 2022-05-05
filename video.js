@@ -17,16 +17,27 @@ folders.forEach(element => {
         }
 
         let list = ''
-        
         videos.forEach(video => {
             if(video != 'list.txt' && video != '.DS_Store' && video != 'combined.mp4'){
                 fs.appendFileSync('./videos/'+element+'/list.txt',('file '+video+'\n'))
 
 
-                list += `file ${video}`
+                list += `file ${video}.ts`
                 list += "\n"
 
 
+
+
+                exec('ffmpeg -i ./videos/'+element+'/'+video+' -c copy -bsf:v h264_mp4toannexb -f mpegts ./videos/'+element+'/'+video+'.ts', {maxBuffer: 1024 * 100000},(error, stdout, stderr) => {
+                    if (error) {
+                        console.log(`error: ${error.message}`);
+                        return;
+                    }
+                    else{
+                        console.log("Converted "+video)
+                }
+                    
+                })
 
 
             
@@ -38,9 +49,9 @@ folders.forEach(element => {
         writeStream.write(list)
 
         writeStream.end()
+//${'./videos/'+element+'/list.txt'}
 
-
-        exec(`ffmpeg -hwaccel cuda -safe 0 -f concat -i  ${'./videos/'+element+'/list.txt'}  -c copy -copyinkf -vsync 1 -s 1920x1080 -sws_flags lanczos -c:v h264 ${'./videos/'+element+'/combined.mp4'}`, {maxBuffer: 1024 * 100000},(error, stdout, stderr) => {
+        exec('ffmpeg -f concat -safe 0 -i ./videos/'+element+'/list.txt'+' -c copy ./videos/'+element+'/'+element+'output.mp4', {maxBuffer: 1024 * 100000},(error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
