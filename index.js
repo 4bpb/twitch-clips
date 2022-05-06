@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 
-let game_list = ['Just Chatting', 'Fortnite']
+let game_list = ['Rocket League']
 
 game_list.forEach(element => {
     let date_ob = new Date();
